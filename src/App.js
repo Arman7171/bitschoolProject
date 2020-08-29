@@ -1,25 +1,18 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import GetFullName from './Components/FullName'
+import UserInfo from './Components/Info'
+
 
 function App() {
+  var users = [
+    {userName: 'user1', password: 1111, email: 'a@gmail.com'},
+    {userName: 'user2', password: 2222, email: 'b@gmail.com'},
+    {userName: 'user3', password: 3333, email: 'c@gmail.com'},
+]
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          
-          Learn React
-        </a>
-      </header>
+      <GetFullName name='Arman' lastName='Vardanyan' />
+      <UserInfo users={users} />
     </div>
   );
 }
