@@ -26,7 +26,7 @@ function App() {
  
   return (
     <div className="App">
-      <Product name='banabas' price='100$' description='Fresh bananas from Armenia' />
+      <Product name='banabas' price={1} description='Fresh bananas from Armenia' />
     </div>
   );
 }
