@@ -8,6 +8,7 @@ export default class Price extends Component {
       currency: 'dollars'
     };
   }
+  
 
   handleChangeCurrency = () => {
     let {value, currency} = this.state;
