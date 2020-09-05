@@ -4,7 +4,7 @@ export default class Price extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      value:this.props.price,
+      value: props.price,
       currency: 'dollars'
     };
   }
