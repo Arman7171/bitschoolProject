@@ -1,13 +1,13 @@
-import React, { Component } from "react";
+import React, { PureComponent } from "react";
 import { InputGroup, FormControl, Button } from "react-bootstrap";
 
-class NewTask extends Component {
+class NewTask extends PureComponent {
   state = {
     inputValue: "",
   };
 
   writeTask = (e) => {
-      if((e.target.value).length > 50 ){
+      if((e.target.value).length > 150 ){
         this.setState({
             inputValue: this.state.inputValue
           });

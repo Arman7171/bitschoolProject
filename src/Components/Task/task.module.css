@@ -25,3 +25,7 @@
     cursor: pointer;
     color: red;
 }
+
+.checked{
+    border: 2px solid red;
+}
