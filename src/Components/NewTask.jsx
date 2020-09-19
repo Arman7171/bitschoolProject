@@ -9,7 +9,7 @@ class NewTask extends PureComponent {
   };
 
   writeTask = (e) => {
-      if((e.target.value).length > 150 ){
+      if((e.target.value).length > 120 ){
         this.setState({
             inputValue: this.state.inputValue
           });

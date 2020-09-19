@@ -4,7 +4,7 @@ import idGenerator from "../helpers/idGenerator";
 import NewTask from "./NewTask";
 import Task from "./Task/Task";
 import Confirm from './Confirm';
-import Modal from './Modal'
+import EditModal from './Modal'
 
 export default class ToDo extends Component {
   state = {
@@ -84,7 +84,6 @@ export default class ToDo extends Component {
   };
 
   editSelectedTask = (newTask) => {
-    console.log(newTask);
     const tasks = [...this.state.tasks];
     var index = tasks.findIndex((task) => task.id === newTask.id);
     tasks[index].text = newTask.text;
@@ -95,7 +94,7 @@ export default class ToDo extends Component {
   };
 
   render() {
-    const { tasks, checkedTask, showConfirm, editTask, checkedTaskCount } = this.state;
+    const { tasks, checkedTask, showConfirm, editTask } = this.state;
     const taskComponent = tasks.map((task) => {
       return (
         <Col md={{ span: 8, offset: 2 }} key={task.id}>
@@ -136,7 +135,7 @@ export default class ToDo extends Component {
           }
           {
             !!editTask &&
-            <Modal
+            <EditModal
               onCancel={this.toggleModal}
               onSubmit={this.editSelectedTask}
               task={editTask}
