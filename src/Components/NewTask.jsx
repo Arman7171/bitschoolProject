@@ -1,5 +1,7 @@
 import React, { PureComponent } from "react";
 import { InputGroup, FormControl, Button } from "react-bootstrap";
+import PropTypes from 'prop-types'
+
 
 class NewTask extends PureComponent {
   state = {
@@ -57,5 +59,9 @@ class NewTask extends PureComponent {
     );
   }
 }
+
+NewTask.propTypes = {
+  onAdd: PropTypes.func.isRequired
+};
 
 export default NewTask;

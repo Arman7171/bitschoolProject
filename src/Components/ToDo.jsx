@@ -3,13 +3,15 @@ import { Container, Row, Col, Button } from "react-bootstrap";
 import idGenerator from "../helpers/idGenerator";
 import NewTask from "./NewTask";
 import Task from "./Task/Task";
-import Confirm from './Confirm'
+import Confirm from './Confirm';
+import Modal from './Modal'
 
 export default class ToDo extends Component {
   state = {
     tasks: [],
     checkedTask: new Set(),
-    showConfirm: false
+    showConfirm: false,
+    editTask: null
   };
 
   addTask = (inputValue) => {
@@ -61,8 +63,31 @@ export default class ToDo extends Component {
     });
   };
 
+  editTask = (task) =>()=> {
+    this.setState({
+      editTask: task
+    });
+  };
+
+  toggleModal = () => {
+    this.setState({
+      editTask: null
+    });
+  };
+
+  editSelectedTask = (newTask) => {
+    console.log(newTask);
+    const tasks = [...this.state.tasks];
+    var index = tasks.findIndex((task) => task.id===newTask.id);
+    tasks[index].text = newTask.text;
+    this.setState({
+        tasks,
+        editTask: null
+    });
+  };
+
   render() {
-    const { tasks, checkedTask, showConfirm } = this.state;
+    const { tasks, checkedTask, showConfirm, editTask } = this.state;
     const taskComponent = tasks.map((task) => {
       return (
         <Col md={{ span: 8, offset: 2 }} key={task.id}>
@@ -70,6 +95,7 @@ export default class ToDo extends Component {
             data={task}
             onRemove={this.removeTask}
             onCheck={this.handleCheck(task.id)}
+            onEdit={this.editTask(task)}
           />
         </Col>
       );
@@ -99,6 +125,14 @@ export default class ToDo extends Component {
           onSubmit = {this.removeCheckedTask}
           onCancel = {this.toggleConfirm}
           />
+          }
+          {
+            !!editTask &&
+            <Modal
+            onCancel = {this.toggleModal}
+            onSubmit = {this.editSelectedTask}
+            task = {editTask}
+            />
           }
         </Container>
       </>

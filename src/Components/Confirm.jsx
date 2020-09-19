@@ -1,5 +1,6 @@
 import React from "react";
 import { Modal, Button } from "react-bootstrap";
+import PropTypes from 'prop-types'
 
 function Confirm(props) {
     const {count, onCancel, onSubmit} = props;
@@ -25,4 +26,12 @@ function Confirm(props) {
      </Modal>
    );
 }
+
+
+Confirm.propTypes = {
+  count: PropTypes.number.isRequired,
+  onCancel: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired
+  };
+
 export default Confirm;

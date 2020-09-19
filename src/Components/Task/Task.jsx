@@ -2,8 +2,8 @@ import React, { PureComponent } from 'react';
 import classes from './task.module.css';
 import { Button } from "react-bootstrap";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrash } from '@fortawesome/free-solid-svg-icons';
-
+import { faTrash, faEdit } from '@fortawesome/free-solid-svg-icons';
+import PropTypes from 'prop-types'
 
 class Task extends PureComponent {
     state = {
@@ -35,11 +35,23 @@ class Task extends PureComponent {
                         >
                         <FontAwesomeIcon icon={faTrash} />
                         </Button>
+                        <Button
+                        onClick={() => this.props.onEdit()}
+                        className='ml-2'
+                        variant="info"
+                        >
+                        <FontAwesomeIcon icon={faEdit} />
+                        </Button>
                     </div>
                 </div>
         );
     }
     }
 
+    Task.propTypes = {
+        onEdit: PropTypes.func.isRequired,
+        data: PropTypes.object.isRequired,
+        onRemove: PropTypes.func.isRequired
+    };
 
 export default Task;
