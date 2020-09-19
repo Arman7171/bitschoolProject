@@ -10,6 +10,7 @@ export default class ToDo extends Component {
   state = {
     tasks: [],
     checkedTask: new Set(),
+    checkedTaskCount: 0,
     showConfirm: false,
     editTask: null
   };
@@ -28,9 +29,14 @@ export default class ToDo extends Component {
   };
 
   removeTask = (id) => {
+    var checkedTask = new Set(this.state.checkedTask);
     const newTasks = this.state.tasks.filter((task) => task.id !== id);
+    if (checkedTask.has(id)) {
+      checkedTask.delete(id);
+    }
     this.setState({
       tasks: newTasks,
+      checkedTask
     });
   };
 
@@ -39,19 +45,20 @@ export default class ToDo extends Component {
     if (checkedTask.has(taskId)) {
       checkedTask.delete(taskId);
     } else checkedTask.add(taskId);
-    this.setState({checkedTask});
+    this.setState({ checkedTask });
   };
 
   toggleConfirm = () => {
     this.setState({
-      showConfirm: !this.state.showConfirm
+      showConfirm: !this.state.showConfirm,
+      checkedTaskCount: this.state.checkedTask.size
     })
-  }
+  };
 
   removeCheckedTask = () => {
     const checkedTask = new Set(this.state.checkedTask);
     let tasks = [...this.state.tasks];
-    checkedTask.forEach(taskId =>{
+    checkedTask.forEach(taskId => {
       tasks = tasks.filter((task) => task.id !== taskId);
     });
     checkedTask.clear();
@@ -59,11 +66,12 @@ export default class ToDo extends Component {
     this.setState({
       tasks,
       checkedTask,
+      checkedTaskCount: 0,
       showConfirm: !this.state.showConfirm
     });
   };
 
-  editTask = (task) =>()=> {
+  editTask = (task) => () => {
     this.setState({
       editTask: task
     });
@@ -78,16 +86,16 @@ export default class ToDo extends Component {
   editSelectedTask = (newTask) => {
     console.log(newTask);
     const tasks = [...this.state.tasks];
-    var index = tasks.findIndex((task) => task.id===newTask.id);
+    var index = tasks.findIndex((task) => task.id === newTask.id);
     tasks[index].text = newTask.text;
     this.setState({
-        tasks,
-        editTask: null
+      tasks,
+      editTask: null
     });
   };
 
   render() {
-    const { tasks, checkedTask, showConfirm, editTask } = this.state;
+    const { tasks, checkedTask, showConfirm, editTask, checkedTaskCount } = this.state;
     const taskComponent = tasks.map((task) => {
       return (
         <Col md={{ span: 8, offset: 2 }} key={task.id}>
@@ -111,27 +119,27 @@ export default class ToDo extends Component {
           </Row>
           <Row>{taskComponent}</Row>
           <Row className='justify-content-center'>
-          <Button 
-          variant="danger"
-          disabled={checkedTask.size ? false : true}
-          onClick={this.toggleConfirm}
-          >
-            Delete checked
+            <Button
+              variant="danger"
+              disabled={checkedTask.size ? false : true}
+              onClick={this.toggleConfirm}
+            >
+              Delete checked
           </Button>
           </Row>
-          {showConfirm && 
-          <Confirm
-          count = {checkedTask.size}
-          onSubmit = {this.removeCheckedTask}
-          onCancel = {this.toggleConfirm}
-          />
+          {showConfirm &&
+            <Confirm
+              count={checkedTask.size}
+              onSubmit={this.removeCheckedTask}
+              onCancel={this.toggleConfirm}
+            />
           }
           {
             !!editTask &&
             <Modal
-            onCancel = {this.toggleModal}
-            onSubmit = {this.editSelectedTask}
-            task = {editTask}
+              onCancel={this.toggleModal}
+              onSubmit={this.editSelectedTask}
+              task={editTask}
             />
           }
         </Container>
