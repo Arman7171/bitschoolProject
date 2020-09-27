@@ -18,7 +18,7 @@ class EditModal extends Component {
   };
 
   handleEdit = (e) => {
-    if ((e.target.value).length > 120) {
+    if ((e.target.value).length > 80) {
       this.setState({
         inputValue: this.state.inputValue
       });
@@ -27,7 +27,7 @@ class EditModal extends Component {
       this.setState({
         inputValue: {
           ...this.state.inputValue,
-          text: e.target.value
+          title: e.target.value
         }
       });
     }
@@ -35,7 +35,7 @@ class EditModal extends Component {
 
   handleSave = () => {
     const { inputValue } = this.state;
-    if (inputValue.text) {
+    if (inputValue.title) {
       this.props.onSubmit(inputValue);
     }
     else return;
@@ -54,7 +54,7 @@ class EditModal extends Component {
         <Modal.Header closeButton>
           <Modal.Body>
             <FormControl
-              value={inputValue.text}
+              value={inputValue.title}
               onChange={this.handleEdit}
               onKeyDown={this.handleKeyDown}
               placeholder="Input task"

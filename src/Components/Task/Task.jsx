@@ -21,17 +21,21 @@ class Task extends PureComponent {
         const { checked } = this.state
         return(
                 <div className={`${classes.task} ${checked ? classes.checked : ''}`}>
-                    <div className={classes.taskText}>
+                    <div className={`${classes.tasktitle} d-flex align-items-center`}>
                         <input
                             type="checkbox"
                             onClick={this.toggleCheckbox}
                             />
-                        <span className="pl-3"> {data.text} </span>
+                        <div className='mx-3'>
+                            <h5 className=''>{data.title}</h5>
+                            <span className={`${classes.taskDescription}`}> {data.description} </span>
+                        </div>
                     </div>
                     <div className={classes.remove}>
                         <Button
-                        onClick={() => this.props.onRemove(data.id)}
+                        onClick={() => this.props.onRemove(data._id)}
                         variant="danger"
+                        disabled={this.props.disabled}
                         >
                         <FontAwesomeIcon icon={faTrash} />
                         </Button>
@@ -39,6 +43,7 @@ class Task extends PureComponent {
                         onClick={() => this.props.onEdit()}
                         className='ml-2'
                         variant="info"
+                        disabled={this.props.disabled}
                         >
                         <FontAwesomeIcon icon={faEdit} />
                         </Button>

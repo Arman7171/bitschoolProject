@@ -10,7 +10,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 4px 15px;
+    padding: 10px 15px;
     box-shadow: 0px 0px 14px -4px rgba(0,0,0,0.75);
     margin-bottom: 10px;
 }
@@ -18,12 +18,16 @@
 .taskText{
     display: flex;
     align-items: center;
-    width: 88%;
+}
+
+.taskDescription{
+    overflow-wrap: anywhere;
 }
 
 .remove{
     cursor: pointer;
     color: red;
+    display: flex;
 }
 
 .checked{
