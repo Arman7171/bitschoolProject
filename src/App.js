@@ -1,5 +1,5 @@
 import React from 'react';
-import ToDo from './Components/ToDo'
+import ToDo from './Components/ToDo/ToDo'
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 

@@ -10,7 +10,7 @@ class Task extends PureComponent {
         checked: false
     };
 
-    toggleCheckbox = ()=>{
+    toggleCheckbox = ()=>{ 
         this.setState({
             checked: !this.state.checked
         })
@@ -29,6 +29,7 @@ class Task extends PureComponent {
                         <div className='mx-3'>
                             <h5 className=''>{data.title}</h5>
                             <span className={`${classes.taskDescription}`}> {data.description} </span>
+                            <p>{data.date ? data.date.slice(0, 10) : 'None'}</p>
                         </div>
                     </div>
                     <div className={classes.remove}>

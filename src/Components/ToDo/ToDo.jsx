@@ -1,11 +1,12 @@
 import React, { Component } from "react";
 import { Container, Row, Col, Button } from "react-bootstrap";
-import idGenerator from "../helpers/idGenerator";
-import NewTask from "./NewTask";
-import Task from "./Task/Task";
-import Confirm from './Confirm';
-import EditModal from './Modal';
+import idGenerator from "../../helpers/idGenerator";
+import NewTask from "../NewTask/NewTask";
+import Task from "../Task/Task";
+import Confirm from '../Confirm';
+import EditModal from '../EditTask/EditModal';
 import axios from 'axios';
+import classes from './todo.module.css'
 
 export default class ToDo extends Component {
   state = {
@@ -19,7 +20,6 @@ export default class ToDo extends Component {
   componentDidMount(){
     axios.get('http://localhost:3001/task')
     .then(res => {
-      console.log(res);
       var tasks = this.state.tasks;
       tasks = res.data;
       this.setState({
@@ -32,26 +32,17 @@ export default class ToDo extends Component {
   }
 
   addTask = (task) => {
-    console.log(task);
   let { tasks } = this.state;
     axios.post('http://localhost:3001/task',task)
     .then(res => {
-      console.log(res);
       this.setState({
-        tasks: [
-          {
-            title: res.data.title,
-            description: res.data.description,
-            date: res.data.date,
-            _id: res.data._id,
-          },  
+        tasks: [res.data,  
           ...tasks,
         ],
         showNewTaskModal: !this.state.showNewTaskModal
       });
     })
     .catch(error => {
-      console.log(error);
     })
 
   };
@@ -65,14 +56,12 @@ export default class ToDo extends Component {
   removeTask = (id) => {
     axios.delete(`http://localhost:3001/task/${id}`)
     .then(res => {
-      console.log(res);
       const newTasks = this.state.tasks.filter((task) => task._id !== id);
       this.setState({
         tasks: newTasks,
       });
     })
     .catch(error => {
-      console.log(error);
     })
    
   };
@@ -93,18 +82,66 @@ export default class ToDo extends Component {
   };
 
   removeCheckedTask = () => {
-    const checkedTask = new Set(this.state.checkedTask);
-    let tasks = [...this.state.tasks];
-    checkedTask.forEach(taskId => {
-      tasks = tasks.filter((task) => task._id !== taskId);
-    });
-    checkedTask.clear();
 
-    this.setState({
-      tasks,
-      checkedTask,
-      showConfirm: !this.state.showConfirm
-    });
+
+    const checkedTask = new Set(this.state.checkedTask);
+
+    fetch(`http://localhost:3001/task/`, {
+        method: 'DELETE',
+        body: JSON.stringify({
+            tasks: [...checkedTask]
+        }),
+        headers: {
+            "Content-Type": 'application/json',
+        }
+    })
+        .then((response) => response.json())
+        .then((data) => {
+            if (data.error) {
+                throw data.error;
+            }
+            let tasks = [...this.state.tasks];
+
+            checkedTask.forEach(taskId => {
+                tasks = tasks.filter(task => task._id !== taskId);
+            });
+
+            checkedTask.clear();
+
+            this.setState({
+                tasks,
+                checkedTask,
+                showConfirm: false
+            });
+
+        })
+        .catch((err) => {
+            console.log('err', err);
+        });
+
+
+
+    // const checkedTask = new Set(this.state.checkedTask);
+    // let tasks = [...this.state.tasks];
+    // axios.delete(`http://localhost:3001/task/`, {tasks: [...checkedTask]})
+    // .then(res => {
+    //   console.log(res);
+    //   checkedTask.forEach(taskId => {
+    //     tasks = tasks.filter((task) => task._id !== taskId);
+    //   });
+    //   checkedTask.clear();
+
+    //   this.setState({
+    //     tasks,
+    //     checkedTask,
+    //     showConfirm: !this.state.showConfirm
+    //   });
+    // })
+    // .catch(error => {
+    //   console.log(error);
+    // })
+
+    
   };
 
   editTask = (task) => () => {
@@ -120,9 +157,9 @@ export default class ToDo extends Component {
   };
 
   editSelectedTask = (newTask) => {
+    newTask.date = newTask.date.slice(0, 10)
     axios.put(`http://localhost:3001/task/${newTask._id}`, newTask)
     .then(res => {
-      console.log(res);
       const tasks = [...this.state.tasks];
       var index = tasks.findIndex((task) => task._id === newTask._id);
       tasks[index].title = newTask.title;
@@ -132,7 +169,6 @@ export default class ToDo extends Component {
       });
     })
     .catch(error => {
-      console.log(error);
     })
   };
 
@@ -158,12 +194,20 @@ export default class ToDo extends Component {
           <Row>
             <Col md={{ span: 6, offset: 3 }} className='text-center'>
               <Button 
-                className='my-3 w-25 py-2'
+                className='my-3 py-2'
                 onClick={this.showTask}
                 disabled={checkedTask.size ? true : false}
                 >
                 Add Task
               </Button>
+            <Button
+              variant="danger"
+              className='mx-2 py-2'
+              disabled={checkedTask.size ? false : true}
+              onClick={this.toggleConfirm}
+            >
+              Delete checked
+          </Button>
               {showNewTaskModal &&
               <NewTask 
                 onAdd={this.addTask}
@@ -173,16 +217,7 @@ export default class ToDo extends Component {
               }
             </Col>
           </Row>
-          <Row>{taskComponent}</Row>
-          <Row className='justify-content-center'>
-            <Button
-              variant="danger"
-              disabled={checkedTask.size ? false : true}
-              onClick={this.toggleConfirm}
-            >
-              Delete checked
-          </Button>
-          </Row>
+          <Row className={classes.scroll}>{taskComponent}</Row>
           {showConfirm &&
             <Confirm
               count={checkedTask.size}
