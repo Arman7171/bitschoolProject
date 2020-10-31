@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { Container, Row, Col, Button } from "react-bootstrap";
-import idGenerator from "../../helpers/idGenerator";
 import NewTask from "../NewTask/NewTask";
 import Task from "../Task/Task";
 import Confirm from '../Confirm';
@@ -83,63 +82,25 @@ export default class ToDo extends Component {
 
   removeCheckedTask = () => {
 
-
     const checkedTask = new Set(this.state.checkedTask);
+    let tasks = [...this.state.tasks];
+    axios.patch(`http://localhost:3001/task/`, {tasks: [...checkedTask]})
+    .then(res => {
+      console.log(res);
+      checkedTask.forEach(taskId => {
+        tasks = tasks.filter((task) => task._id !== taskId);
+      });
+      checkedTask.clear();
 
-    fetch(`http://localhost:3001/task/`, {
-        method: 'DELETE',
-        body: JSON.stringify({
-            tasks: [...checkedTask]
-        }),
-        headers: {
-            "Content-Type": 'application/json',
-        }
+      this.setState({
+        tasks,
+        checkedTask,
+        showConfirm: !this.state.showConfirm
+      });
     })
-        .then((response) => response.json())
-        .then((data) => {
-            if (data.error) {
-                throw data.error;
-            }
-            let tasks = [...this.state.tasks];
-
-            checkedTask.forEach(taskId => {
-                tasks = tasks.filter(task => task._id !== taskId);
-            });
-
-            checkedTask.clear();
-
-            this.setState({
-                tasks,
-                checkedTask,
-                showConfirm: false
-            });
-
-        })
-        .catch((err) => {
-            console.log('err', err);
-        });
-
-
-
-    // const checkedTask = new Set(this.state.checkedTask);
-    // let tasks = [...this.state.tasks];
-    // axios.delete(`http://localhost:3001/task/`, {tasks: [...checkedTask]})
-    // .then(res => {
-    //   console.log(res);
-    //   checkedTask.forEach(taskId => {
-    //     tasks = tasks.filter((task) => task._id !== taskId);
-    //   });
-    //   checkedTask.clear();
-
-    //   this.setState({
-    //     tasks,
-    //     checkedTask,
-    //     showConfirm: !this.state.showConfirm
-    //   });
-    // })
-    // .catch(error => {
-    //   console.log(error);
-    // })
+    .catch(error => {
+      console.log(error);
+    })
 
     
   };
@@ -157,12 +118,11 @@ export default class ToDo extends Component {
   };
 
   editSelectedTask = (newTask) => {
-    newTask.date = newTask.date.slice(0, 10)
     axios.put(`http://localhost:3001/task/${newTask._id}`, newTask)
     .then(res => {
       const tasks = [...this.state.tasks];
       var index = tasks.findIndex((task) => task._id === newTask._id);
-      tasks[index].title = newTask.title;
+      tasks[index] = res.data;
       this.setState({
         tasks,
         editTask: null

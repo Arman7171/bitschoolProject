@@ -65,7 +65,7 @@ class NewTask extends Component {
 
   render() {
     const { onCancel } = this.props;
-    const { title, description, date, valid, errorType } = this.state;
+    const { description, date, valid, errorType } = this.state;
     var errorMessage = this.validationErrors[errorType]
     return (
       <Modal

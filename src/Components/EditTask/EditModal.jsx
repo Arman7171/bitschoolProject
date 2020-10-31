@@ -9,7 +9,10 @@ class EditModal extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      task: this.props.task,
+      title: props.task.title,
+      date: props.task.date.slice(0, 10),
+      description: props.task.description,
+      _id:  props.task._id,
       errorType: null,
       valid: true
     };
@@ -35,17 +38,18 @@ class EditModal extends Component {
     });
   }
 
+  if(type==='date'){
+    value = value.toISOString().slice(0, 10)
+  }
+
   this.setState({
-    task: {
-      ...this.state.task,
-      [type]: value
-    }
-  });
+      [type]: value 
+    });
   };
 
   handleSave = () => {
-    const { task } = this.state;
-    if (!task.title) {
+    const { title, description, date, _id } = this.state;
+    if (!title) {
       this.setState({
         valid: false,
         errorType: 'requiredError'
@@ -53,7 +57,7 @@ class EditModal extends Component {
       return;
     }
 
-    if(task.title.length>30){
+    if(title.length>30){
       this.setState({
         errorType: 'lengthError',
         valid: false
@@ -61,12 +65,19 @@ class EditModal extends Component {
       return;
     };
 
-    this.props.onSubmit(task);
+  const data = {
+    title,
+    description,
+    date,
+    _id
+  }
+
+    this.props.onSubmit(data);
   };
 
   render() {
     const { onCancel } = this.props;
-    const { task, valid, errorType } = this.state
+    const { date, title, description, valid, errorType } = this.state
     var errorMessage = this.validationErrors[errorType]
 
     return (
@@ -83,7 +94,7 @@ class EditModal extends Component {
             <Form.Label className={"text-danger"}>{errorMessage}</Form.Label>
               <FormControl
                 className={!valid ? classes.invalid : null}
-                value={task.title}
+                value={title}
                 onChange={(e) => this.handleEdit('title', e.target.value)}
                 onKeyDown={this.handleKeyDown}
                 placeholder="Input task"
@@ -96,13 +107,13 @@ class EditModal extends Component {
               rows="3" 
               className='my-3'
               placeholder='Description'
-              value={task.description}
+              value={description}
               onChange={(e) => this.handleEdit('description', e.target.value)}
               />
               <div className={classes.datePicker}>
                 <DatePicker
                   onChange={(e) => this.handleEdit('date', e)}
-                  selected={new Date(task.date)}
+                  selected={new Date(date)}
                   minDate={new Date()}
                 />
               </div>
