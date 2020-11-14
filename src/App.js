@@ -1,13 +1,17 @@
 import React from 'react';
-import ToDo from './Components/ToDo/ToDo'
 import 'bootstrap/dist/css/bootstrap.min.css';
-
+import { BrowserRouter as Route } from 'react-router-dom';
+import Routes from './Routes';
+import Header from './Components/header';
 
 function App() {
  
   return (
     <div className="App">
-      <ToDo />
+      <Route>
+        <Header />
+        <Routes />
+      </Route>
     </div>
   );
 }
