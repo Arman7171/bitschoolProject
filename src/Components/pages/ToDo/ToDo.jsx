@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import { Container, Row, Col, Button } from "react-bootstrap";
-import NewTask from "../NewTask/NewTask";
-import Task from "../Task/Task";
-import Confirm from '../Confirm';
-import EditModal from '../EditTask/EditModal';
+import NewTask from "../../NewTask/NewTask";
+import Task from "../../Task/Task";
+import Confirm from '../../Confirm';
+import EditModal from '../../EditTask/EditModal';
 import axios from 'axios';
 import classes from './todo.module.css'
 

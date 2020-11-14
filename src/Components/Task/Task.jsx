@@ -3,7 +3,8 @@ import classes from './task.module.css';
 import { Button } from "react-bootstrap";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faEdit } from '@fortawesome/free-solid-svg-icons';
-import PropTypes from 'prop-types'
+import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 
 class Task extends PureComponent {
     state = {
@@ -27,7 +28,7 @@ class Task extends PureComponent {
                             onClick={this.toggleCheckbox}
                             />
                         <div className='mx-3'>
-                            <h5 className=''>{data.title}</h5>
+                            <h5 className=''><Link to={`/task/${data._id}`}>{data.title}</Link></h5>
                             <span className={`${classes.taskDescription}`}> {data.description} </span>
                             <p>{data.date ? data.date.slice(0, 10) : 'None'}</p>
                         </div>
