@@ -14,37 +14,33 @@ export const defaultState = {
 
 export const mainReducer = (state = defaultState, action) => {
     switch(action.type){
-        case actionTypes.LOADING: {
+        case actionTypes.LOADING:
             return {
                 ...state,
                 successMessage: null,
                 error: null,
                 loading: true
-            }
-        };
-        case actionTypes.ERROR: {
+            };
+        case actionTypes.ERROR: 
             return {
                 ...state,
                 loading: false,
                 error: action.error
-            }
-        };
+            };
 
-        case actionTypes.GET_TASKS_SUCCESS: {
+        case actionTypes.GET_TASKS_SUCCESS:
             return {
                 ...state,
                 tasks: action.tasks,
                 loading: false
-            }
-        };
+            };
 
-        case actionTypes.GET_TASK_SUCCESS: {
+        case actionTypes.GET_TASK_SUCCESS: 
             return {
                 ...state,
                 task: action.task,
                 loading: false
-            }
-        };
+            };
 
         case actionTypes.EDIT_TASK_SUCCESS: {
             if(action.single){
@@ -52,7 +48,7 @@ export const mainReducer = (state = defaultState, action) => {
                     ...state,
                     task: action.task,
                     loading: false,
-                    successMessage: 'task edit success'
+                    successMessage: 'task edit successfully'
                 }
             }
             const tasks = [...state.tasks];
@@ -62,36 +58,34 @@ export const mainReducer = (state = defaultState, action) => {
                 ...state,
                 tasks: tasks,
                 loading: false,
-                successMessage: 'task edit success'
+                successMessage: 'task edit successfully'
             }
         };
 
-        case actionTypes.ADDING_TASK: {
+        case actionTypes.ADDING_TASK: 
             return {
                 ...state,
                 loading: true,
                 addTaskSuccess: false,
                 successMessage: null,
                 error: null
-            }
-        };
-        case actionTypes.ADD_TASK_SUCCESS: {
+            };
+        case actionTypes.ADD_TASK_SUCCESS: 
             return {
                 ...state,
                 tasks: [action.task, ...state.tasks],
                 loading: false,
                 addTaskSuccess: true,
-                successMessage: 'task creates success'
-            }
-        };
+                successMessage: 'task creates successfully'
+            };
 
-        case actionTypes.DELETE_TASK_SUCCESS: {
+        case actionTypes.DELETE_TASK_SUCCESS: 
             if(action.single){
                 return {
                     ...state,
                     task: null,
                     loading: false,
-                    successMessage: 'task remove success'
+                    successMessage: 'task remove successfully'
                 }
             }
             else{
@@ -100,20 +94,18 @@ export const mainReducer = (state = defaultState, action) => {
                     ...state,
                     tasks,
                     loading: false,
-                    successMessage: 'task remove success'
+                    successMessage: 'task remove successfully'
                 }
-            }
-        };
+            };
 
 
-        case actionTypes.REMOMVEING_TASKS: {
+        case actionTypes.REMOMVEING_TASKS: 
             return {
                 ...state,
                 loading: true,
                 successMessage: null,
                 removeTasksSuccess: false
-            }
-        }
+            };
         case actionTypes.DELETE_TASKS_SUCCESS: {
             let tasks = [...state.tasks];
             action.taskIds.forEach(taskId => {
@@ -123,7 +115,7 @@ export const mainReducer = (state = defaultState, action) => {
                 ...state,
                 tasks,
                 loading: false,
-                successMessage: 'tasks remove success',
+                successMessage: 'tasks remove successfully',
                 removeTasksSuccess: true
             }
         };
