@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, createRef } from "react";
 import { Modal, Button, FormControl, Form } from "react-bootstrap";
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
@@ -16,6 +16,12 @@ class EditModal extends Component {
       errorType: null,
       valid: true
     };
+
+    this.titleRef = createRef();
+  };
+
+  componentDidMount(){
+    this.titleRef.current.focus();
   }
 
   validationErrors = {
@@ -100,6 +106,7 @@ class EditModal extends Component {
                 placeholder="Input task"
                 aria-label="Input task"
                 aria-describedby="basic-addon2"
+                ref={this.titleRef}
               />
             </Form.Group>
              <Form.Control 

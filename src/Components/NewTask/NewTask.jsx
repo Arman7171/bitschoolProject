@@ -1,18 +1,29 @@
-import React, { Component } from "react";
+import React, { Component, createRef } from "react";
 import { Modal, Button, FormControl, Form } from "react-bootstrap";
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 import PropTypes from 'prop-types';
 import classes from './style.module.css';
+import { connect } from "react-redux";
+import { addTask } from '../../Store/actions';
 
 class NewTask extends Component {
-  state = {
-      title: '',
-      description: '',
-      date: new Date(),
-      valid: true,
-      errorType: null
-  };
+  constructor(props){
+    super(props)
+      this.state = {
+        title: '',
+        description: '',
+        date: new Date(),
+        valid: true,
+        errorType: null
+    };
+    this.titleRef = createRef();
+  }
+
+
+componentDidMount(){
+  this.titleRef.current.focus();
+}
 
   validationErrors = {
     requiredError: 'The field is required!',
@@ -58,7 +69,7 @@ class NewTask extends Component {
       date: date.toISOString().slice(0, 10)
     };
 
-    this.props.addNewTask(data)
+    this.props.addTask(data)
 
   };
 
@@ -87,6 +98,7 @@ class NewTask extends Component {
                 placeholder="Title"
                 aria-label="Title"
                 aria-describedby="basic-addon2"
+                ref={this.titleRef}
               />
             </Form.Group>
             <Form.Control 
@@ -117,7 +129,10 @@ class NewTask extends Component {
 
 NewTask.propTypes = {
   onCancel: PropTypes.func.isRequired,
-  addNewTask: PropTypes.func.isRequired
 };
 
-export default NewTask;
+const mapDisputchToProps = {
+  addTask: addTask
+};
+
+export default connect(null, mapDisputchToProps)(NewTask);

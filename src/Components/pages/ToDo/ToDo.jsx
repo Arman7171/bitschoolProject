@@ -4,10 +4,12 @@ import NewTask from "../../NewTask/NewTask";
 import Task from "../../Task/Task";
 import Confirm from '../../Confirm';
 import EditModal from '../../EditTask/EditModal';
-import axios from 'axios';
-import classes from './todo.module.css'
+import classes from './todo.module.css';
+import Search from '../../Search';
+import { connect } from "react-redux";
+import { getTasks, editTask, removeTask, removeTasks } from '../../../Store/actions';
 
-export default class ToDo extends Component {
+class ToDo extends Component {
   state = {
     tasks: [],
     checkedTask: new Set(),
@@ -17,34 +19,22 @@ export default class ToDo extends Component {
   };
 
   componentDidMount(){
-    axios.get('http://localhost:3001/task')
-    .then(res => {
-      var tasks = this.state.tasks;
-      tasks = res.data;
-      this.setState({
-        tasks
-      });
-    })
-    .catch(error => {
-      console.log(error);
-    })
+    this.props.getTasks();
   }
 
-  addTask = (task) => {
-  let { tasks } = this.state;
-    axios.post('http://localhost:3001/task',task)
-    .then(res => {
+  componentDidUpdate(prevProps){
+    if(!prevProps.addTaskSuccess && this.props.addTaskSuccess){
       this.setState({
-        tasks: [res.data,  
-          ...tasks,
-        ],
         showNewTaskModal: !this.state.showNewTaskModal
       });
-    })
-    .catch(error => {
-    })
-
-  };
+    }
+    if(!prevProps.removeTasksSuccess && this.props.removeTasksSuccess){
+      this.setState({
+        showConfirm: !this.state.showConfirm,
+        checkedTask: new Set()
+      });
+    }
+  }
 
   showTask = () =>{
     this.setState({
@@ -53,16 +43,7 @@ export default class ToDo extends Component {
   };
 
   removeTask = (id) => {
-    axios.delete(`http://localhost:3001/task/${id}`)
-    .then(res => {
-      const newTasks = this.state.tasks.filter((task) => task._id !== id);
-      this.setState({
-        tasks: newTasks,
-      });
-    })
-    .catch(error => {
-    })
-   
+    this.props.removeTask(id);
   };
 
   handleCheck = (taskId) => () => {
@@ -82,26 +63,8 @@ export default class ToDo extends Component {
 
   removeCheckedTask = () => {
 
-    const checkedTask = new Set(this.state.checkedTask);
-    let tasks = [...this.state.tasks];
-    axios.patch(`http://localhost:3001/task/`, {tasks: [...checkedTask]})
-    .then(res => {
-      console.log(res);
-      checkedTask.forEach(taskId => {
-        tasks = tasks.filter((task) => task._id !== taskId);
-      });
-      checkedTask.clear();
-
-      this.setState({
-        tasks,
-        checkedTask,
-        showConfirm: !this.state.showConfirm
-      });
-    })
-    .catch(error => {
-      console.log(error);
-    })
-
+    const checkedTasks = [...this.state.checkedTask];
+    this.props.removeTasks({tasks: checkedTasks})
     
   };
 
@@ -118,22 +81,15 @@ export default class ToDo extends Component {
   };
 
   editSelectedTask = (newTask) => {
-    axios.put(`http://localhost:3001/task/${newTask._id}`, newTask)
-    .then(res => {
-      const tasks = [...this.state.tasks];
-      var index = tasks.findIndex((task) => task._id === newTask._id);
-      tasks[index] = res.data;
-      this.setState({
-        tasks,
+    this.props.editTask(newTask);
+       this.setState({
         editTask: null
       });
-    })
-    .catch(error => {
-    })
   };
 
   render() {
-    const { tasks, checkedTask, showConfirm, editTask, showNewTaskModal } = this.state;
+    const { checkedTask, showConfirm, editTask, showNewTaskModal } = this.state;
+    const { tasks } = this.props;
     const taskComponent = tasks.map((task) => {
       return (
         <Col md={{ span: 8, offset: 2 }} key={task._id}>
@@ -168,11 +124,10 @@ export default class ToDo extends Component {
             >
               Delete checked
           </Button>
+          <Search />
               {showNewTaskModal &&
-              <NewTask 
-                onAdd={this.addTask}
-                addNewTask={this.addTask}
-                onCancel={this.showTask}
+                <NewTask 
+                  onCancel={this.showTask}
                 />
               }
             </Col>
@@ -198,3 +153,20 @@ export default class ToDo extends Component {
     );
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    tasks: state.tasks,
+    addTaskSuccess: state.addTaskSuccess,
+    removeTasksSuccess: state.removeTasksSuccess
+  }
+};
+
+const mapDisputchToProps = {
+  getTasks: getTasks,
+  editTask: editTask,
+  removeTask: removeTask,  
+  removeTasks: removeTasks,
+};
+
+export default connect(mapStateToProps, mapDisputchToProps)(ToDo);

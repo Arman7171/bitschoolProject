@@ -1,12 +1,13 @@
 import React, { PureComponent } from "react";
-import axios from 'axios';
 import { Button } from "react-bootstrap";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrash, faEdit } from '@fortawesome/free-solid-svg-icons';
-import Spinner from '../Spinner/Spinner';
+import { faTrash, faEdit, faCheck, faHistory } from '@fortawesome/free-solid-svg-icons';
 import EditModal from '../EditTask/EditModal';
+import { connect } from 'react-redux';
+import { editTask, getTask, removeTask, changeTaskStatus } from '../../Store/actions';
+import { formatDate } from '../../helpers/utils';
 
-export default class SingleTask extends PureComponent {
+class SingleTask extends PureComponent {
     state = {
         task: null,
         isEdit: false
@@ -14,76 +15,88 @@ export default class SingleTask extends PureComponent {
 
     componentDidMount() {
         const id = this.props.match.params.id;
-        axios.get(`http://localhost:3001/task/${id}`)
-            .then(res => {
-                this.setState({
-                    task: res.data
-                });
-            })
-            .catch(error => {
-                console.log(error);
+        this.props.getTask(id);
+    };
+
+    componentDidUpdate(prevProps) {
+        if (prevProps.task && this.props.task === null) {
+            this.props.history.push('/');
+        }
+        else if (prevProps.task && prevProps.task !== this.props.task) {
+            this.setState({
+                isEdit: false
             });
+        }
     };
 
     toggleEdit = () => {
-        this.setState({ 
+        this.setState({
             isEdit: !this.state.isEdit
         });
     };
 
     editTask = (newTask) => {
-        axios.put(`http://localhost:3001/task/${newTask._id}`, newTask)
-        .then(res => {
-          this.setState({
-            task: newTask,
-            isEdit: false
-          });
-        })
-        .catch(error => {
-        })
+        this.props.editTask(newTask, true);
     };
 
     removeTask = (id) => {
-        axios.delete(`http://localhost:3001/task/${id}`)
-        .then(res => {
-          this.props.history.push('/');
-        })
-        .catch(error => {
-        });   
-      };
-    
+        this.props.removeTask(id, true);
+    };
+
 
     render() {
-        let { task, isEdit } = this.state;
+        let { task } = this.props;
+        let { isEdit } = this.state;
         return (
             <>
                 {
-                    task ? 
-                        <div className='text-center mt-5'>
-                            <h3>Title: {task.title}</h3>
-                            <h4>Description: {task.description}</h4>
-                            <h5>Date: {task.date.slice(0, 10)}</h5>
+                    task ?
+                        <div className='text-center mt-5 ml-5'>
+                            <h2>Title: {task.title}</h2>
+                            <p className='mb-3'>Description: {task.description}</p>
+                            <h6>Date: {formatDate(task.date)}</h6>
+                            <h6>Created: {formatDate(task.created_at)} </h6>
+                            <h6 className={`${task.status === 'active' ? 'text-success' : 'text-danger'}`}>status: {task.status} </h6>
+                            {
+                                task.status === 'active' ?
+                                    <Button
+                                        onClick={() => this.props.changeTaskStatus(task._id, { status: 'done' }, 'single')}
+                                        className='mr-2 mt-4'
+                                        variant="success"
+                                        disabled={this.props.disabled}
+                                    >
+                                        <FontAwesomeIcon icon={faCheck} />
+                                    </Button> :
+                                    <Button
+                                        onClick={() => this.props.changeTaskStatus(task._id, { status: 'active' }, 'single')}
+                                        className='mr-2 mt-4'
+                                        variant="warning"
+                                        disabled={this.props.disabled}
+                                    >
+                                        <FontAwesomeIcon icon={faHistory} />
+                                    </Button>
+                            }
                             <Button
-                            className='mt-4'
-                            variant="danger"
-                            onClick={() => this.removeTask(task._id)}
+                                className='mt-4'
+                                variant="danger"
+                                onClick={() => this.removeTask(task._id)}
                             >
-                            <FontAwesomeIcon icon={faTrash} />
+                                <FontAwesomeIcon icon={faTrash} />
                             </Button>
                             <Button
-                            className='ml-2 mt-4'
-                            variant="info"
-                            onClick={this.toggleEdit}
+                                className='ml-2 mt-4'
+                                variant="info"
+                                onClick={this.toggleEdit}
                             >
-                            <FontAwesomeIcon icon={faEdit} />
+                                <FontAwesomeIcon icon={faEdit} />
                             </Button>
                         </div>
-                    : <Spinner />
+                        : <h5>There is not task</h5>
                 }
                 {
-                    isEdit ? 
+                    isEdit ?
                         <EditModal
-                            task = {task}
+                            task={task}
                             onCancel={this.toggleEdit}
                             onSubmit={this.editTask}
                         />
@@ -93,3 +106,18 @@ export default class SingleTask extends PureComponent {
         );
     }
 }
+
+const mapStateToProps = (state) => {
+    return {
+        task: state.task
+    };
+};
+
+const mapDisaptchToProps = {
+    getTask: getTask,
+    removeTask: removeTask,
+    editTask: editTask,
+    changeTaskStatus: changeTaskStatus
+};
+
+export default connect(mapStateToProps, mapDisaptchToProps)(SingleTask);

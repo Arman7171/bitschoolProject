@@ -31,9 +31,17 @@
 }
 
 .checked{
-    border: 2px solid red;
+    border: 2px solid red!important;
+}
+
+.activeTask{
+    border: 2px solid blue;
 }
 
 p{
     margin: 0!important;
+}
+
+.title{
+    margin: 0;
 }
