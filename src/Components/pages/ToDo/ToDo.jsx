@@ -4,7 +4,8 @@ import NewTask from "../../NewTask/NewTask";
 import Task from "../../Task/Task";
 import Confirm from '../../Confirm';
 import EditModal from '../../EditTask/EditModal';
-import classes from './todo.module.css'
+import classes from './todo.module.css';
+import Search from '../../Search';
 import { connect } from "react-redux";
 import { getTasks, editTask, removeTask, removeTasks } from '../../../Store/actions';
 
@@ -123,6 +124,7 @@ class ToDo extends Component {
             >
               Delete checked
           </Button>
+          <Search />
               {showNewTaskModal &&
                 <NewTask 
                   onCancel={this.showTask}

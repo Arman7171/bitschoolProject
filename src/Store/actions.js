@@ -1,11 +1,23 @@
 import request from '../helpers/requests';
 import * as actionTypes from './actionType';
 
-export const getTasks = () => {
-    return (dispatch) => {
-        dispatch({ type: actionTypes.LOADING })
+export const getTasks = (params={}) => {
+    console.log('params', params)
+    let url = `/task`;
 
-        request('/task')
+    let query="?";
+for(let key in params){
+query+= `${key}=${params[key]}&`;
+}
+
+if(query !== "?"){ 
+    url+= query
+}
+    
+    return (dispatch)=>{
+        dispatch({type: actionTypes.LOADING});
+    
+        request(url)
         .then(res => {
             dispatch({ type: actionTypes.GET_TASKS_SUCCESS, tasks: res.data})
         })
@@ -78,6 +90,27 @@ export const removeTasks = (data) => {
         request(`/task`, 'patch', data)
         .then(res => {
             dispatch({ type: actionTypes.DELETE_TASKS_SUCCESS, taskIds: data.tasks})
+        })
+        .catch(err => {
+            dispatch({ type: actionTypes.ERROR, error: err.message})
+        })
+    }
+};
+
+export const changeTaskStatus = (taskId, data, from='tasks') => {
+    return (dispatch) => {
+        dispatch({ type: actionTypes.LOADING })
+
+        request(`/task/${taskId}`, 'put', data)
+        .then(res => {
+            dispatch(
+                {
+                    type: actionTypes.CHANGE_TASK_STATUS_SUCCESS, 
+                    editedTask: res.data, 
+                    from,
+                    status: data.status
+                }
+            )
         })
         .catch(err => {
             dispatch({ type: actionTypes.ERROR, error: err.message})
