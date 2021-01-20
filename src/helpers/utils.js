@@ -4,7 +4,7 @@ export function formatDate(date = ''){
 
 export function shortStr(str = '', length=0){
     if(str.length > 100){
-        return str.slice(0, length) + ' ...';
+        return str.slice(0, length) + '...';
     }
     else{
         return str;

@@ -5,7 +5,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import PropTypes from 'prop-types';
 import classes from './style.module.css';
 import { connect } from "react-redux";
-import { addTask } from '../../Store/actions';
+import { addTask } from '../../Store/task/taskActions';
 
 class NewTask extends Component {
   constructor(props){
