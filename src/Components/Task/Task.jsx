@@ -4,7 +4,7 @@ import { Button } from "react-bootstrap";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faEdit, faCheck, faHistory } from '@fortawesome/free-solid-svg-icons';
 import {connect} from 'react-redux';
-import { changeTaskStatus } from '../../Store/actions';
+import { changeTaskStatus } from '../../Store/task/taskActions';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { formatDate, shortStr } from '../../helpers/utils';
@@ -34,7 +34,7 @@ class Task extends PureComponent {
                     type="checkbox"
                     onClick={this.toggleCheckbox}
                 />
-                <div className='mx-3'>
+                <div className='mx-3 text-center'>
                     <h5 className={`${classes.title}`}><Link to={`/task/${data._id}`}>{data.title}</Link></h5>
                     <span className={`${classes.taskDescription}`}> {data.description ? shortStr(data.description, 80) : 'None'} </span>
                     <p>{data.date ? formatDate(data.date) : 'None'}</p>

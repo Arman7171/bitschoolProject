@@ -1,5 +1,5 @@
-import request from '../helpers/requests';
-import * as actionTypes from './actionType';
+import request from '../../helpers/requests';
+import * as actionTypes from './taskActionType';
 
 export const getTasks = (params={}) => {
     console.log('params', params)

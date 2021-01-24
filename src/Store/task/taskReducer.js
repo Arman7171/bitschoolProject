@@ -1,5 +1,5 @@
-import * as actionTypes from './actionType';
-
+import * as actionTypes from './taskActionType';
+import {LOGOUT_SUCCESS, AUTH_LOADING} from '../auth/userActionType';
 
 export const defaultState = {
     tasks: [],
@@ -12,7 +12,7 @@ export const defaultState = {
 };
 
 
-export const mainReducer = (state = defaultState, action) => {
+export const taskReducer = (state = defaultState, action) => {
     switch(action.type){
         case actionTypes.LOADING:
             return {
@@ -124,10 +124,10 @@ export const mainReducer = (state = defaultState, action) => {
             let message;
       
             if(action.status === 'done'){
-              message = 'Congtatulations, you have completed the task 🎉!!!';
+              message = 'Congtatulations, you have completed the task!';
             }
             else{
-              message = 'The task is active now!!!'
+              message = 'The task is active now!'
             }
       
             const newState = {
@@ -153,6 +153,16 @@ export const mainReducer = (state = defaultState, action) => {
               };
             }
             
+        }
+        case LOGOUT_SUCCESS:{
+            return defaultState
+        }
+        case AUTH_LOADING:{
+            return {
+                ...state,
+                successMessage: null,
+                error: null
+            }
         }
 
         default: return state;

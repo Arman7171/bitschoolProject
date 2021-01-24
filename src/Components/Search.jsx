@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { InputGroup, FormControl, Button, DropdownButton, Dropdown } from 'react-bootstrap';
 import { connect } from 'react-redux';
-import { getTasks } from '../Store/actions';
+import { getTasks } from '../Store/task/taskActions';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -172,15 +172,16 @@ function Search(props) {
           </Button>
                 </InputGroup.Append>
             </InputGroup>
-            <div className='d-flex mb-4'>
+            <div className='mb-4'>
                 {
                     dateOptions.map(option =>
                         <div
                         key={option.value}
-                        className='pr-1'
+                        className='mb-2'
                         >
                             <span>{option.label}</span>
-                            <DatePicker 
+                            <DatePicker
+                            className='ml-2' 
                             selected = {dates[option.value]}
                             onChange={(value) => setDates({
                                 ...dates,

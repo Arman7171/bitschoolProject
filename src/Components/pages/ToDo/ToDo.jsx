@@ -7,7 +7,7 @@ import EditModal from '../../EditTask/EditModal';
 import classes from './todo.module.css';
 import Search from '../../Search';
 import { connect } from "react-redux";
-import { getTasks, editTask, removeTask, removeTasks } from '../../../Store/actions';
+import { getTasks, editTask, removeTask, removeTasks } from '../../../Store/task/taskActions';
 
 class ToDo extends Component {
   state = {
@@ -156,9 +156,9 @@ class ToDo extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    tasks: state.tasks,
-    addTaskSuccess: state.addTaskSuccess,
-    removeTasksSuccess: state.removeTasksSuccess
+    tasks: state.taskReducer.tasks,
+    addTaskSuccess: state.taskReducer.addTaskSuccess,
+    removeTasksSuccess: state.taskReducer.removeTasksSuccess
   }
 };
 
