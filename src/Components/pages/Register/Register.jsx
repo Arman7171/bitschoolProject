@@ -54,15 +54,15 @@ const Register = props => {
             });
         }
         else{
-            console.log(data);
             props.register(data);
         }
     }
 
     return (
         <div className={classes.registerContainer}>
-            <h1 className='text-primary mb-5'>ToDo App Registration</h1>
+            <h1 className={`text-primary mb-3 ${classes.logo}`}>ToDo</h1>
         <Form className='text-right w-35' onSubmit={(e) => handleSubmit(e)}>
+        <h4 className='float-left mb-3'>Registration</h4>
         <Form.Group>
             <Form.Control 
                 type="text" 
@@ -119,17 +119,17 @@ const Register = props => {
                 </Form.Text>
             </Form.Group>
 
-            <Button variant="primary" type="submit">
+            <Button style={{background: '#59ACF9'}} type="submit">
                 Submit
             </Button>
         </Form>
-        <Link to='/login'>Alredy registered? Try to Login.</Link>
+        <Link to='/login' className='mt-3'>Alredy registered? Try to Login.</Link>
         </div>
     );
 }
 
 const mapDispatchToProps = {
-    register: register
+    register
 };
 
 export default connect(null, mapDispatchToProps)(Register);

@@ -1,6 +1,5 @@
 import React, { Component, createRef } from "react";
 import { Modal, Button, FormControl, Form } from "react-bootstrap";
-import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 import PropTypes from 'prop-types';
 import classes from './style.module.css';
@@ -13,7 +12,7 @@ class NewTask extends Component {
       this.state = {
         title: '',
         description: '',
-        date: new Date(),
+        date: new Date().toISOString().slice(0, 10),
         valid: true,
         errorType: null
     };
@@ -62,11 +61,12 @@ componentDidMount(){
       });
       return;
     };
+    console.log(date);
 
     let data = {
       title,
       description,
-      date: date.toISOString().slice(0, 10)
+      date: date.toString().slice(0, 10)
     };
 
     this.props.addTask(data)
@@ -87,6 +87,8 @@ componentDidMount(){
         onHide={onCancel}
       >
         <Modal.Header closeButton>
+          <span>Create your task</span>
+        </Modal.Header>
           <Modal.Body>
           <Form.Group controlId="exampleForm.ControlInput1">
             <Form.Label className={"text-danger"}>{errorMessage}</Form.Label>
@@ -110,14 +112,14 @@ componentDidMount(){
               onChange={(e) => this.handleChange('description', e.target.value)}
               />
               <div className={classes.datePicker}>
-                <DatePicker
-                  onChange={(e) => this.handleChange('date', e)}
-                  selected={date}
-                  minDate={new Date()}
+                <input 
+                  type="date" 
+                  onChange={(e) => this.handleChange('date', e.target.value)}
+                  value={date}
+                  min={new Date().toISOString().slice(0, 10)}
                 />
               </div>
           </Modal.Body>
-        </Modal.Header>
         <Modal.Footer>
           <Button onClick={this.handleSave} variant='info'>Add</Button>
           <Button onClick={onCancel} variant='secondary'>Cancel</Button>
@@ -132,7 +134,7 @@ NewTask.propTypes = {
 };
 
 const mapDisputchToProps = {
-  addTask: addTask
+  addTask
 };
 
 export default connect(null, mapDisputchToProps)(NewTask);

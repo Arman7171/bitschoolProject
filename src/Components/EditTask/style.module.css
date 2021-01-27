@@ -1,6 +1,13 @@
-.datePicker>div, .datePicker input{
-    width: 100%;
+.datePicker {
+    text-align: right;    
 }
+
+input[type="date"]:valid {
+    background-color: #59ACF9;
+    border: 1px solid white;
+    border-radius: 5px;
+    padding: 4px 7px;
+  }
 
 .invalid{
     border: 2px solid red!important;

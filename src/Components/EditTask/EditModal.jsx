@@ -1,6 +1,5 @@
 import React, { Component, createRef } from "react";
 import { Modal, Button, FormControl, Form } from "react-bootstrap";
-import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 import PropTypes from 'prop-types';
 import classes from './style.module.css';
@@ -45,7 +44,7 @@ class EditModal extends Component {
   }
 
   if(type==='date'){
-    value = value.toISOString().slice(0, 10)
+    value = value.toString().slice(0, 10)
   }
 
   this.setState({
@@ -95,6 +94,8 @@ class EditModal extends Component {
         onHide={onCancel}
       >
         <Modal.Header closeButton>
+          <span>Edit your task</span>
+        </Modal.Header>
           <Modal.Body>
           <Form.Group controlId="exampleForm.ControlInput1">
             <Form.Label className={"text-danger"}>{errorMessage}</Form.Label>
@@ -118,14 +119,14 @@ class EditModal extends Component {
               onChange={(e) => this.handleEdit('description', e.target.value)}
               />
               <div className={classes.datePicker}>
-                <DatePicker
-                  onChange={(e) => this.handleEdit('date', e)}
-                  selected={new Date(date)}
-                  minDate={new Date()}
+              <input 
+                  type="date" 
+                  onChange={(e) => this.handleEdit('date', e.target.value)}
+                  value={date}
+                  min={new Date().toISOString().slice(0, 10)}
                 />
               </div>
           </Modal.Body>
-        </Modal.Header>
         <Modal.Footer>
           <Button onClick={this.handleSave} variant='info'>Save</Button>
           <Button onClick={onCancel} variant='secondary'>Cancel</Button>

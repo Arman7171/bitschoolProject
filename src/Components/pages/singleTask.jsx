@@ -51,9 +51,9 @@ class SingleTask extends PureComponent {
             <>
                 {
                     task ?
-                        <div className='text-center mt-5 ml-5'>
+                        <div className='text-center pt-5 mx-4 content-min-height'>
                             <h2>Title: {task.title}</h2>
-                            <p className='mb-3'>Description: {task.description}</p>
+                            <p className='mb-3'><span className='h6'>Description: </span>{task.description}</p>
                             <h6>Date: {formatDate(task.date)}</h6>
                             <h6>Created: {formatDate(task.created_at)} </h6>
                             <h6 className={`${task.status === 'active' ? 'text-success' : 'text-danger'}`}>status: {task.status} </h6>

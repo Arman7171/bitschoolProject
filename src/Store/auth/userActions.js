@@ -41,16 +41,16 @@ export const login = (data) => {
         })
         .catch(err => {
             console.log('login err', err.response);
-            dispatch({ type: actionTypes.AUTH_ERROR, error: err.response.data.message})
+            dispatch({ type: actionTypes.AUTH_ERROR, error: err.message})
         })
     }
 };
 
 export const logout = () => {
     return async (dispatch) => {
-        console.log('-------', getJWT());
+        console.log('-------', (await getJWT()).jwt);
         dispatch({ type: actionTypes.AUTH_LOADING })
-        request(`/user/sign-out`, 'post', {jwt: await getJWT()}, true)
+        request(`/user/sign-out`, 'post', {jwt: (await getJWT()).jwt}, true)
         .then(res => {
             removeJWT();
             dispatch(
@@ -82,7 +82,46 @@ export const getInfo = () => {
             );
         })
         .catch(err => {
-            console.log('login err', err.response);
+            console.log('userinfo err', err.response);
+            dispatch({ type: actionTypes.AUTH_ERROR, error: err.message})
+        })
+    }
+};
+
+export const changeInfo = (data) => {
+    return async (dispatch) => {
+        dispatch({ type: actionTypes.AUTH_LOADING })
+        request(`/user`, 'put', data)
+        .then(res => {
+            console.log('CHANGE userinfo------', res.data);
+            dispatch(
+                {
+                    type: actionTypes.CHANGE_USERINFO_SUCCESS, 
+                    data: {name: res.data.name, surname: res.data.surname}
+                }
+            );
+        })
+        .catch(err => {
+            console.log('change err', err.response);
+            dispatch({ type: actionTypes.AUTH_ERROR, error: err.message})
+        })
+    }
+};
+
+export const sendContactForm = (data) => {
+    return async (dispatch) => {
+        dispatch({ type: actionTypes.AUTH_LOADING })
+        request(`/form`, 'post', data)
+        .then(res => {
+            console.log('contact ------', res.data);
+            dispatch(
+                {
+                    type: actionTypes.SENDFORM_SUCCESS, 
+                }
+            );
+        })
+        .catch(err => {
+            console.log('change err', err.response);
             dispatch({ type: actionTypes.AUTH_ERROR, error: err.message})
         })
     }

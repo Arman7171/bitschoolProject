@@ -51,8 +51,9 @@ const Login = (props) => {
 
     return (
         <div className={classes.loginContainer}>
-            <h1 className='text-primary mb-3'>ToDo App Login</h1>
+        <h1 className={`text-primary mb-5 ${classes.logo}`}>ToDo</h1>
         <Form className='text-right w-35' onSubmit={(e) => handleSubmit(e)}>
+        <h4 className='float-left mb-3'>Login</h4>
             <Form.Group>
                 <Form.Control 
                     type="email" 
@@ -78,11 +79,11 @@ const Login = (props) => {
                     {errors.password}
                 </Form.Text>
             </Form.Group>
-            <Button variant="primary" type="submit">
+            <Button style={{background: '#59ACF9'}} type="submit">
                 Submit
             </Button>
         </Form>
-        <Link to='/register'>Don't have an account? Register now</Link>
+        <Link to='/register' className='mt-4'>Don't have an account? Register now</Link>
         </div>
     );
 }

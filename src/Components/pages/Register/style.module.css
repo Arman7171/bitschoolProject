@@ -1,7 +1,25 @@
 .registerContainer{
-    height: calc(100vh - 56px);
+    height: calc(100vh - 134px);
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
+}
+
+.logo{
+    font-size: 50px;
+    font-family: cursive;
+    color: #59ACF9;
+}
+
+@media (max-width: 576px) {
+    .registerContainer{
+        height: calc(100vh - 71px - 74px);
+    }
+}
+
+@media (max-width: 410px) {
+    h1{
+        font-size: 30px;
+    }
 }

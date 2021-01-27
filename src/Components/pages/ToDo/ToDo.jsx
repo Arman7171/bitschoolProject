@@ -5,7 +5,7 @@ import Task from "../../Task/Task";
 import Confirm from '../../Confirm';
 import EditModal from '../../EditTask/EditModal';
 import classes from './todo.module.css';
-import Search from '../../Search';
+import Search from '../../Search/Search';
 import { connect } from "react-redux";
 import { getTasks, editTask, removeTask, removeTasks } from '../../../Store/task/taskActions';
 
@@ -104,12 +104,12 @@ class ToDo extends Component {
       );
     });
     return (
-      <>
-        <Container fluid={true}>
-          <h1 className="text-center text-info">ToDo Application</h1>
-          <Row>
-            <Col md={{ span: 6, offset: 3 }} className='text-center'>
-              <Button 
+      <div className={classes.contentMinHeight}>
+        <Container>
+          <h6 className={`text-dark ${classes.headTitle}`}>Getstarted your task message</h6>
+          <Search />
+          <div className='text-right'>
+          <Button 
                 className='my-3 py-2'
                 onClick={this.showTask}
                 disabled={checkedTask.size ? true : false}
@@ -124,14 +124,12 @@ class ToDo extends Component {
             >
               Delete checked
           </Button>
-          <Search />
+          </div>
               {showNewTaskModal &&
                 <NewTask 
                   onCancel={this.showTask}
                 />
               }
-            </Col>
-          </Row>
           <Row className={classes.scroll}>{taskComponent}</Row>
           {showConfirm &&
             <Confirm
@@ -149,7 +147,7 @@ class ToDo extends Component {
             />
           }
         </Container>
-      </>
+      </div>
     );
   }
 }

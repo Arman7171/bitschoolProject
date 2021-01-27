@@ -1,0 +1,51 @@
+.navbar{
+    background-color: #59ACF9;
+    z-index: 999999;
+}
+
+.brand{
+    font-size: 40px;
+    font-family: cursive;
+    text-decoration: none!important;
+    color: white!important;
+}
+
+.link{
+    color: white!important;
+    text-decoration: none!important;
+    font-weight: 700;
+    font-style: normal;
+    font-size: 18px;
+    margin-left: 40px;
+    font-family: cursive;
+    z-index: 9999;
+}
+
+.user{
+    margin-left: 59px;
+    font-size: 40.87px;
+    color: white;
+    cursor: pointer;
+    z-index: 99999;
+}
+
+.dropdownMenu{
+    background-color: #59ACF9;
+    width: 200px;
+    position: absolute;
+    right: 0;
+    padding: 7px;
+    transition: .5s;
+    color: white;
+    font-weight: 500;
+    font-family: cursive;
+    cursor: pointer;
+    border-radius: 0 0 5px 10px;
+}
+
+.dropdownMenu a{
+    color: white;
+    font-weight: 500;
+    font-family: cursive;
+    text-decoration: none;
+}
