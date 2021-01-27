@@ -8,11 +8,11 @@ const apiURL = process.env.REACT_APP_API_URL;
 
 export const saveJWT = (data) => {
     localStorage.setItem('token', JSON.stringify(data));
-}
+};
 
 export function loginStatus(){
     return localStorage.getItem('token');
-}
+};
 
 export const getJWT = () => {
     const token = localStorage.getItem('token');
@@ -25,24 +25,18 @@ export const getJWT = () => {
 
     const jwtParsed = JSON.parse(token);
     const decoded = decode(jwtParsed.jwt);
-    var newJWT;
-    console.log(decoded);
     if(decoded.exp - Date.now()/1000 < 110){
-        axios.put(apiURL + `/user/${decoded.userId}/token`, {refreshToken: jwtParsed.refreshToken})
+        return axios.put(apiURL + `/user/${decoded.userId}/token`, {refreshToken: jwtParsed.refreshToken})
         .then((res) => {
-            console.log('refresh', res);
-            saveJWT(res.data.jwt)
-            newJWT = res.data.jwt;
+            saveJWT(res.data)
+            return Promise.resolve(res.data);
         })
-        .catch((err) => {
-            console.log('refresh', err);
-        })
-        return Promise.resolve(newJWT);
+        .catch((err) => {})
     }
 
-    return Promise.resolve(jwtParsed.jwt);
-}
+    return Promise.resolve(jwtParsed);
+};
 
 export const removeJWT = () => {
     localStorage.removeItem('token');
-}
+};

@@ -4,15 +4,17 @@ import { getJWT } from './userAuth';
 const apiURL = process.env.REACT_APP_API_URL;
 
 const request = async(url, method='get', body, loginrequest=false) => {
-    const jwt = await getJWT();
-    console.log('jwt-----', jwt);
-    if(!jwt && !loginrequest){
+    var jwtData;
+    if(!loginrequest){
+        jwtData = await getJWT();
+    }
+    if(!loginrequest && !jwtData?.jwt){
         return Promise.reject({message: 'Something went wrong!'})
     }
 
     const config = {
         headers: {
-            'Authorization': `Bearer ${jwt}`
+            'Authorization': `Bearer ${jwtData?.jwt}`
         }
     }
     if(body){

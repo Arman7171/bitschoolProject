@@ -1,7 +1,19 @@
 .loginContainer{
-    height: calc(100vh - 56px);
+    height: calc(100vh - 71px - 63px);
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
 }
+
+.logo{
+    font-size: 50px;
+    font-family: cursive;
+    color: #59ACF9;
+}
+
+@media (max-width: 576px) {
+    .loginContainer{
+        height: calc(100vh - 71px - 74px);
+    }
+  }

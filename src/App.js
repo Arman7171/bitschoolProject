@@ -3,7 +3,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css'
 import { Router } from 'react-router-dom';
 import Routes from './Routes';
-import Header from './Components/header';
+import Header from './Components/Header/Header';
+import Footer from './Components/Footer';
 import { connect } from "react-redux";
 import { ToastContainer, toast } from 'react-toastify';
 import { history } from './helpers/history';
@@ -38,6 +39,7 @@ class App extends React.PureComponent{
         <Router history={history}>
           <Header />
           <Routes />
+          <Footer />
         </Router>
   
         <ToastContainer

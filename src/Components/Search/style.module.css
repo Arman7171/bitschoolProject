@@ -1,0 +1,17 @@
+.search{
+    margin-top: 49px;
+}
+
+.search button{
+    background-color: #59ACF9;
+}
+
+.serchContent{
+    width: 50%;
+}
+
+@media (max-width: 768px) {
+    .serchContent{
+        width: 100%;
+    }
+  }

@@ -52,6 +52,28 @@ export const userReducer = (state = defaultState, action) => {
                 user: action.user
             }
         }
+        case actionTypes.CHANGE_USERINFO_SUCCESS:{
+            return{
+                ...state,
+                user: action.data,
+                loading: false,
+                successMessage: 'You information successfully changed'
+            }
+        }
+        case actionTypes.SENDFORM_SUCCESS:{
+            return{
+                ...state,
+                loading: false,
+                successMessage: 'You message successfully sended'
+            }
+        }
+        case 'GETTING_TASKS':{
+            return {
+                ...state,
+                successMessage: null,
+                error: null
+            }
+        }
 
 
         default: return state;

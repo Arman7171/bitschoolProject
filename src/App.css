@@ -1,3 +1,7 @@
+body{
+  font-family: cursive;
+}
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;
@@ -41,6 +45,18 @@ a.active.activeLink{
   color: red;
 }
 
-.navbar-nav a{
-  color: #61dafb;
+.content-min-height{
+  min-height: calc(100vh - 71px - 49px);
+}
+
+@media (max-width: 576px) {
+  .content-min-height{
+    min-height: calc(100vh - 71px - 74px);
+  }
+}
+
+@media (max-width: 666px) {
+  .w-35{
+    width: 55%;
+  }
 }

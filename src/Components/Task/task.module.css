@@ -15,6 +15,16 @@
     margin-bottom: 10px;
 }
 
+@media (max-width: 576px) {
+    .task{
+        display: block;
+    }
+    .remove{
+        justify-content: center;
+        margin-top: 10px;
+    }
+  }
+
 .taskText{
     display: flex;
     align-items: center;
