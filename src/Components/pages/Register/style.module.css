@@ -1,5 +1,5 @@
 .registerContainer{
-    height: calc(100vh - 134px);
+    height: calc(100vh - 71px - 88px);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -8,14 +8,7 @@
 
 .logo{
     font-size: 50px;
-    font-family: cursive;
     color: #59ACF9;
-}
-
-@media (max-width: 576px) {
-    .registerContainer{
-        height: calc(100vh - 71px - 74px);
-    }
 }
 
 @media (max-width: 410px) {

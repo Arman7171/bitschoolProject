@@ -38,13 +38,11 @@ const Contact = ({ user, sendContactForm }) => {
     };
 
     const handleSubmit = (e) => {
-        console.log(data.message);
         e.preventDefault();
         if (!data.name.trim() || !data.email.trim() || !data.message.trim()) {
             setErrors('fill in all fields');
         }
         else {
-            console.log(data);
             sendContactForm(data);
             setData({
                 name: '',

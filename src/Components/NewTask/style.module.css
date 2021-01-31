@@ -11,5 +11,12 @@ input[type="date"]:valid {
     border: 1px solid white;
     border-radius: 5px;
     padding: 4px 7px;
-  }
+    color: white;
+}
+
+.modalTitle{
+    font-weight: 700;
+    font-style: normal;
+    font-size: 20px;
+}
   

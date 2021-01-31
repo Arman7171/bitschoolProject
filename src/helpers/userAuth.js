@@ -25,7 +25,7 @@ export const getJWT = () => {
 
     const jwtParsed = JSON.parse(token);
     const decoded = decode(jwtParsed.jwt);
-    if(decoded.exp - Date.now()/1000 < 110){
+    if(decoded.exp - Date.now()/1000 < 60){
         return axios.put(apiURL + `/user/${decoded.userId}/token`, {refreshToken: jwtParsed.refreshToken})
         .then((res) => {
             saveJWT(res.data)

@@ -44,7 +44,6 @@ const Login = (props) => {
             });
         }
         else{
-            console.log(data);
             props.login(data);
         }
     }

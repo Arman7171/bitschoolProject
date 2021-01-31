@@ -92,7 +92,7 @@ class ToDo extends Component {
     const { tasks } = this.props;
     const taskComponent = tasks.map((task) => {
       return (
-        <Col md={{ span: 8, offset: 2 }} key={task._id}>
+        <Col lg={{ span: 8, offset: 2 }} md={12} key={task._id}>
           <Task
             data={task}
             onRemove={this.removeTask}
@@ -106,11 +106,11 @@ class ToDo extends Component {
     return (
       <div className={classes.contentMinHeight}>
         <Container>
-          <h6 className={`text-dark ${classes.headTitle}`}>Getstarted your task message</h6>
+          <h6 className={`text-dark ${classes.headTitle}`}>Get started your task message</h6>
           <Search />
           <div className='text-right'>
           <Button 
-                className='my-3 py-2'
+                className='my-4 py-2 bg-aquaBlue'
                 onClick={this.showTask}
                 disabled={checkedTask.size ? true : false}
                 >

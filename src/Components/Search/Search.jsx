@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import { getTasks } from '../../Store/task/taskActions';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch, faCalendar } from '@fortawesome/free-solid-svg-icons';
-import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 import classes from './style.module.css';
 
@@ -110,7 +109,7 @@ function Search(props) {
         for (let key in dates) {
             let val = dates[key];
             if (val) {
-                searchData[key] = val.toLocaleDateString();
+                searchData[key] = val.toString().slice(0, 10);
             }
         }
 
@@ -129,7 +128,7 @@ function Search(props) {
                     />
                     <InputGroup.Append>
                         <Button
-                            variant="primary"
+                            className="bg-aquaBlue"
                             onClick={handleSubmit}
                         >
                             <FontAwesomeIcon icon={faSearch} />
@@ -175,14 +174,23 @@ function Search(props) {
                         }
 
                     </DropdownButton>
-                    <Button variant='outline-primary' onClick={() => setDateSerach(!dateSearch)}>
+                    <Button variant='outline-primary' 
+                        onClick={() => {
+                            setDateSerach(!dateSearch);
+                            setDates({
+                                create_lte: null,
+                                create_gte: null,
+                                complete_lte: null,
+                                complete_gte: null
+                            });
+                        }}>
                         <FontAwesomeIcon icon={faCalendar} />
                     </Button>
                 </InputGroup>
             </div>
             {
                 dateSearch ?
-                <div className='mb-4 mt-4 text-center'>
+                <div className='mb-4 mt-4'>
                 <Container>
                     <Row>
                         {
@@ -190,16 +198,18 @@ function Search(props) {
                                 <Col
                                     key={option.value}
                                     className='mb-2 d-flex flex-column'
+                                    lg={3}
                                     md={6}
                                     sm={12}
                                 >
-                                    <span>{option.label}</span>
-                                    <DatePicker
-                                        className='ml-2'
-                                        selected={dates[option.value]}
-                                        onChange={(value) => setDates({
+                                    <span className='ml-2' style={{color: '#59ACF9'}}>{option.label}</span>
+                                    <input
+                                        type='date'
+                                        className={`ml-2 ${classes.searchDate}`}
+                                        value={dates[option.value]}
+                                        onChange={(e) => setDates({
                                             ...dates,
-                                            [option.value]: value
+                                            [option.value]: e.target.value
                                         })}
                                     />
 

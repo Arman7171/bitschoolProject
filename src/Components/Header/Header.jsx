@@ -21,7 +21,7 @@ const Header = ({ isAuthenticated, logout, getInfo, user }) => {
                         <NavLink
                             to='/'
                             exact
-                            className={`${classes.brand} activeLink`}
+                            className={`${classes.brand}`}
                         >
                             ToDo
                         </NavLink>
@@ -50,10 +50,10 @@ const Header = ({ isAuthenticated, logout, getInfo, user }) => {
                                 className={classes.user} 
                                 onClick={() => setDropdown(!dropdown)}
                             />
-                            <div className={`${classes.dropdownMenu} d-flex flex-column`} style={{top: dropdown ? '68px' : '-78px'}}>
+                            <div className={`${classes.dropdownMenu} flex-column`} style={{top: dropdown ? '68px' : '-78px', display: dropdown ? 'flex' : 'none'}}>
                                 <span className='text-dark'>{user?.name} {user?.surname}</span> 
-                                <Link to='/userInfo'>Settings</Link>
-                                <span  onClick={() => {logout(); setDropdown(false)}}>Logout</span>
+                                <Link to='/userInfo' onClick={() => setDropdown(false)}>Settings</Link>
+                                <span className={`${classes.logout}`} onClick={() => {logout(); setDropdown(false)}}>Logout</span>
                             </div>
                            
                         </>

@@ -6,7 +6,7 @@ import Register from './Components/pages/Register/Register';
 import Login from "./Components/pages/Login/Login";
 import NotFound from './Components/pages/notFound';
 import CustomRoute from './Components/CustomRoute';
-import UserInfo from "./Components/pages/UserInfo";
+import UserInfo from "./Components/pages/UserInfo/UserInfo";
 import Contact from './Components/pages/Contact';
 import About from "./Components/pages/AboutUs";
 

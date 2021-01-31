@@ -15,3 +15,11 @@
         width: 100%;
     }
   }
+
+.searchDate[type="date"]:valid {
+    background-color: white;
+    border: 1px solid #59ACF9;
+    border-radius: 5px;
+    padding: 4px 7px;
+    color: #59ACF9;
+}
