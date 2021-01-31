@@ -4,7 +4,6 @@ import { saveJWT, removeJWT, getJWT } from '../../helpers/userAuth';
 import { history } from '../../helpers/history';
 
 export const register = (data) => {
-    console.log('REGISTER_USER_SUCCESS', data);
     return (dispatch) => {
         dispatch({ type: actionTypes.AUTH_LOADING })
         request(`/user`, 'post', data, true)
@@ -29,7 +28,6 @@ export const login = (data) => {
 
         request(`/user/sign-in`, 'post', data, true)
         .then(res => {
-            console.log('login', res);
             saveJWT(res.data);
             dispatch(
                 {
@@ -40,15 +38,13 @@ export const login = (data) => {
             history.push('/');
         })
         .catch(err => {
-            console.log('login err', err.response);
-            dispatch({ type: actionTypes.AUTH_ERROR, error: err.message})
+            dispatch({ type: actionTypes.AUTH_ERROR, error: err.response.data.error.message})
         })
     }
 };
 
 export const logout = () => {
     return async (dispatch) => {
-        console.log('-------', (await getJWT()).jwt);
         dispatch({ type: actionTypes.AUTH_LOADING })
         request(`/user/sign-out`, 'post', {jwt: (await getJWT()).jwt}, true)
         .then(res => {
@@ -62,7 +58,6 @@ export const logout = () => {
             history.push('/login');
         })
         .catch(err => {
-            console.log('login err', err.response);
             dispatch({ type: actionTypes.AUTH_ERROR, error: err.message})
         })
     }
@@ -73,7 +68,6 @@ export const getInfo = () => {
         dispatch({ type: actionTypes.AUTH_LOADING })
         request(`/user`)
         .then(res => {
-            console.log('userinfo------', res.data);
             dispatch(
                 {
                     type: actionTypes.GET_USERINFO_SUCCESS, 
@@ -82,7 +76,6 @@ export const getInfo = () => {
             );
         })
         .catch(err => {
-            console.log('userinfo err', err.response);
             dispatch({ type: actionTypes.AUTH_ERROR, error: err.message})
         })
     }
@@ -93,7 +86,6 @@ export const changeInfo = (data) => {
         dispatch({ type: actionTypes.AUTH_LOADING })
         request(`/user`, 'put', data)
         .then(res => {
-            console.log('CHANGE userinfo------', res.data);
             dispatch(
                 {
                     type: actionTypes.CHANGE_USERINFO_SUCCESS, 
@@ -102,7 +94,6 @@ export const changeInfo = (data) => {
             );
         })
         .catch(err => {
-            console.log('change err', err.response);
             dispatch({ type: actionTypes.AUTH_ERROR, error: err.message})
         })
     }
@@ -113,7 +104,6 @@ export const sendContactForm = (data) => {
         dispatch({ type: actionTypes.AUTH_LOADING })
         request(`/form`, 'post', data)
         .then(res => {
-            console.log('contact ------', res.data);
             dispatch(
                 {
                     type: actionTypes.SENDFORM_SUCCESS, 
@@ -121,8 +111,25 @@ export const sendContactForm = (data) => {
             );
         })
         .catch(err => {
-            console.log('change err', err.response);
             dispatch({ type: actionTypes.AUTH_ERROR, error: err.message})
+        })
+    }
+};
+
+export const changePass = (data) => {
+    return async (dispatch) => {
+        dispatch({ type: actionTypes.AUTH_LOADING })
+        request(`/user/password`, 'put', data)
+        .then(res => {
+            dispatch(
+                {
+                    type: actionTypes.CHANGE_PASSWORD_SUCCESS, 
+                    data
+                }
+            );
+        })
+        .catch(err => {
+            dispatch({ type: actionTypes.AUTH_ERROR, error: err.response.data.error.message})
         })
     }
 };

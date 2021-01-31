@@ -94,9 +94,17 @@ class EditModal extends Component {
         onHide={onCancel}
       >
         <Modal.Header closeButton>
-          <span>Edit your task</span>
+          <span className={classes.modalTitle}>Edit your task</span>
         </Modal.Header>
           <Modal.Body>
+          <div className={classes.datePicker}>
+              <input 
+                  type="date" 
+                  onChange={(e) => this.handleEdit('date', e.target.value)}
+                  value={date}
+                  min={new Date().toISOString().slice(0, 10)}
+                />
+              </div>
           <Form.Group controlId="exampleForm.ControlInput1">
             <Form.Label className={"text-danger"}>{errorMessage}</Form.Label>
               <FormControl
@@ -118,17 +126,9 @@ class EditModal extends Component {
               value={description}
               onChange={(e) => this.handleEdit('description', e.target.value)}
               />
-              <div className={classes.datePicker}>
-              <input 
-                  type="date" 
-                  onChange={(e) => this.handleEdit('date', e.target.value)}
-                  value={date}
-                  min={new Date().toISOString().slice(0, 10)}
-                />
-              </div>
           </Modal.Body>
         <Modal.Footer>
-          <Button onClick={this.handleSave} variant='info'>Save</Button>
+          <Button onClick={this.handleSave} className='bg-aquaBlue'>Save changes</Button>
           <Button onClick={onCancel} variant='secondary'>Cancel</Button>
         </Modal.Footer>
       </Modal>

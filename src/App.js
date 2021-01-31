@@ -4,7 +4,7 @@ import './App.css'
 import { Router } from 'react-router-dom';
 import Routes from './Routes';
 import Header from './Components/Header/Header';
-import Footer from './Components/Footer';
+import Footer from './Components/Footer/Footer';
 import { connect } from "react-redux";
 import { ToastContainer, toast } from 'react-toastify';
 import { history } from './helpers/history';

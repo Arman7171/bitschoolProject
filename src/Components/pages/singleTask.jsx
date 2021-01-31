@@ -1,5 +1,5 @@
 import React, { PureComponent } from "react";
-import { Button } from "react-bootstrap";
+import { Button, Row, Col, Container } from "react-bootstrap";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faEdit, faCheck, faHistory } from '@fortawesome/free-solid-svg-icons';
 import EditModal from '../EditTask/EditModal';
@@ -51,45 +51,58 @@ class SingleTask extends PureComponent {
             <>
                 {
                     task ?
-                        <div className='text-center pt-5 mx-4 content-min-height'>
-                            <h2>Title: {task.title}</h2>
-                            <p className='mb-3'><span className='h6'>Description: </span>{task.description}</p>
-                            <h6>Date: {formatDate(task.date)}</h6>
-                            <h6>Created: {formatDate(task.created_at)} </h6>
-                            <h6 className={`${task.status === 'active' ? 'text-success' : 'text-danger'}`}>status: {task.status} </h6>
-                            {
-                                task.status === 'active' ?
-                                    <Button
-                                        onClick={() => this.props.changeTaskStatus(task._id, { status: 'done' }, 'single')}
-                                        className='mr-2 mt-4'
-                                        variant="success"
-                                        disabled={this.props.disabled}
-                                    >
-                                        <FontAwesomeIcon icon={faCheck} />
-                                    </Button> :
-                                    <Button
-                                        onClick={() => this.props.changeTaskStatus(task._id, { status: 'active' }, 'single')}
-                                        className='mr-2 mt-4'
-                                        variant="warning"
-                                        disabled={this.props.disabled}
-                                    >
-                                        <FontAwesomeIcon icon={faHistory} />
-                                    </Button>
-                            }
-                            <Button
-                                className='mt-4'
-                                variant="danger"
-                                onClick={() => this.removeTask(task._id)}
-                            >
-                                <FontAwesomeIcon icon={faTrash} />
-                            </Button>
-                            <Button
-                                className='ml-2 mt-4'
-                                variant="info"
-                                onClick={this.toggleEdit}
-                            >
-                                <FontAwesomeIcon icon={faEdit} />
-                            </Button>
+                        <div className='d-flex align-items-center content-min-height'>
+                            <Container className='singlTaskContainer'>
+                                <Row>
+                                    <Col md={6} sm={12}>
+                                        <h6 className='text-aquaBlue'>Task title</h6>
+                                        <h4 className='mb-3'>{task.title}</h4>
+                                        <h6 className='text-aquaBlue'>Decription</h6>
+                                        <p>{task.description}</p>
+                                    </Col>
+                                    <Col md={6} sm={12} className='text-right d-flex flex-column justify-content-between    '>
+                                        <div>
+                                        <h6>Date: {formatDate(task.date)}</h6>
+                                        <h6>Created: {formatDate(task.created_at)} </h6>
+                                        </div>
+                                        <div>
+                                        {
+                                            task.status === 'active' ?
+                                                <Button
+                                                    onClick={() => this.props.changeTaskStatus(task._id, { status: 'done' }, 'single')}
+                                                    className='mr-2 mt-4'
+                                                    variant="warning"
+                                                    disabled={this.props.disabled}
+                                                >
+                                                    <FontAwesomeIcon icon={faHistory} />
+                                                </Button> :
+                                                <Button
+                                                    onClick={() => this.props.changeTaskStatus(task._id, { status: 'active' }, 'single')}
+                                                    className='mr-2 mt-4'
+                                                    variant="success"
+                                                    disabled={this.props.disabled}
+                                                >
+                                                    <FontAwesomeIcon icon={faCheck} />
+                                                </Button>
+                                        }
+                                        <Button
+                                            className='mt-4 p-0 text-removecolor mx-3'
+                                            variant="mute"
+                                            onClick={() => this.removeTask(task._id)}
+                                        >
+                                            <FontAwesomeIcon icon={faTrash} />
+                                        </Button>
+                                        <Button
+                                            className='ml-2 mt-4 p-0 text-aquaBlue'
+                                            variant="mute"
+                                            onClick={this.toggleEdit}
+                                        >
+                                            <FontAwesomeIcon icon={faEdit} />
+                                        </Button>
+                                        </div>
+                                    </Col>
+                                </Row>
+                            </Container>
                         </div>
                         : <h5>There is not task</h5>
                 }

@@ -1,15 +1,8 @@
 .contentMinHeight{
-    min-height: calc(100vh - 71px - 49px);
+    min-height: calc(100vh - 71px - 169px);
 }
 
 .headTitle{
   font-size: 24px;
   margin-top: 81px;
-  font-family: cursive;
 }
-
-@media (max-width: 576px) {
-    .contentMinHeight{
-      min-height: calc(100vh - 71px - 74px);
-    }
-  }

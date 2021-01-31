@@ -6,7 +6,8 @@ export const defaultState = {
     error: null,
     successMessage: null,
     user: {},
-    isAuthenticated: loginStatus()
+    isAuthenticated: loginStatus(),
+    passChanged: false
 };
 
 
@@ -17,7 +18,8 @@ export const userReducer = (state = defaultState, action) => {
                 ...state,
                 successMessage: null,
                 error: null,
-                loading: true
+                loading: true,
+                passChanged: false
             };
         case actionTypes.AUTH_ERROR: 
             return {
@@ -65,6 +67,14 @@ export const userReducer = (state = defaultState, action) => {
                 ...state,
                 loading: false,
                 successMessage: 'You message successfully sended'
+            }
+        }
+        case actionTypes.CHANGE_PASSWORD_SUCCESS:{
+            return{
+                ...state,
+                loading: false,
+                successMessage: 'Your password successfully changed',
+                passChanged: true
             }
         }
         case 'GETTING_TASKS':{

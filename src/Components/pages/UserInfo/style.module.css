@@ -1,0 +1,39 @@
+.loginContainer{
+    height: calc(100vh - 71px - 63px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.loginContainer h1{
+    color: #59ACF9;
+}
+
+.loginContainer span{
+    color: #59ACF9;
+}
+
+.logo{
+    font-size: 50px;
+    color: #59ACF9;
+}
+
+@media (max-width: 576px) {
+    .loginContainer{
+        height: calc(100vh - 71px - 74px);
+    }
+  }
+
+.infoProperty span{
+    cursor: pointer;
+}
+
+.infoProperty span:hover{
+    color: #000000;
+}
+
+.active{
+    color: #000000!important;
+}
+
